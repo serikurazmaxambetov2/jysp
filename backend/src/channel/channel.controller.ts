@@ -50,6 +50,6 @@ export class ChannelController {
     );
     if (!channel) throw new NotFoundException('NOT_FOUND');
 
-    return channel;
+    return await this.channelService.findById(channel.id);
   }
 }
