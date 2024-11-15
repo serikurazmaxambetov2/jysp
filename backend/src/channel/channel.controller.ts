@@ -43,10 +43,13 @@ export class ChannelController {
     @Param() params: DChannelFindById,
     @Body() dto: DChannelOwnerSet,
   ) {
+    // Проверка на не существование
     const channel = await this.channelService.setOwner(
       params.id, // ID канала
       dto.id, // ID владельца
     );
-    if (!channel) return channel;
+    if (!channel) throw new NotFoundException('NOT_FOUND');
+
+    return channel;
   }
 }
