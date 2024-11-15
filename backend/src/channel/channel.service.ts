@@ -21,14 +21,11 @@ export class ChannelService {
   async findById(id: number) {
     return await this.channelRepo.findOne({
       where: { id },
-      select: [
-        'id',
-        'link',
-        'title',
-        'owner',
-        'toChannelRelations',
-        'fromChannelRelations',
-      ],
+      relations: {
+        owner: true,
+        toChannelRelations: true,
+        fromChannelRelations: true,
+      },
     });
   }
 
