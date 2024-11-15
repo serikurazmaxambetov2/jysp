@@ -1,4 +1,5 @@
-import { Column, Entity } from 'typeorm';
+import { EChannelRelation } from '../channel-relation/channel-relation.entity';
+import { Column, Entity, OneToMany, Relation } from 'typeorm';
 
 @Entity('channel')
 export class EChannel {
@@ -10,4 +11,16 @@ export class EChannel {
 
   @Column({ type: 'text' })
   link: string;
+
+  @OneToMany(
+    () => EChannelRelation,
+    (channelRelation) => channelRelation.toChannel,
+  )
+  fromChannelRelations: Relation<EChannelRelation[]>;
+
+  @OneToMany(
+    () => EChannelRelation,
+    (channelRelation) => channelRelation.fromChannel,
+  )
+  toChannelRelations: Relation<EChannelRelation[]>;
 }
