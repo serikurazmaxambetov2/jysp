@@ -1,5 +1,13 @@
+import { ETelegramUser } from '../telegram-user/telegram-user.entity';
 import { EChannelRelation } from '../channel-relation/channel-relation.entity';
-import { Column, Entity, OneToMany, Relation } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  Relation,
+} from 'typeorm';
 
 @Entity('session')
 export class ESession {
@@ -17,4 +25,10 @@ export class ESession {
 
   @OneToMany(() => EChannelRelation, (relation) => relation.session)
   listenRelations: Relation<EChannelRelation[]>;
+
+  @ManyToOne(() => ETelegramUser, (telegramUser) => telegramUser.sessions, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'owner_id' })
+  owner?: Relation<ETelegramUser>;
 }
