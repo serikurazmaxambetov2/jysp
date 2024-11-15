@@ -1,7 +1,53 @@
-import { Controller } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ChannelService } from './channel.service';
+import { DChannelCreate } from './dto/create.dto';
+import { DChannelFindById } from './dto/find-by-id.dto';
+import { DChannelOwnerSet } from './dto/channel-owner-set.dto';
 
 @Controller('channel')
 export class ChannelController {
   constructor(private channelService: ChannelService) {}
+
+  @Post()
+  async create(@Body() dto: DChannelCreate) {
+    // Проверка на существование
+    const channelExists = await this.channelService.exists({
+      where: { id: dto.id },
+    });
+    if (channelExists) throw new BadRequestException('ALREADY_EXISTS');
+
+    return await this.channelService.create(dto);
+  }
+
+  @Get(':id')
+  async findById(@Param() params: DChannelFindById) {
+    // Проверка на не существование
+    const channel = await this.channelService.findById(params.id);
+    if (!channel) throw new NotFoundException('NOT_FOUND');
+
+    return channel;
+  }
+
+  @Post(':id/owner')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async setOwner(
+    @Param() params: DChannelFindById,
+    @Body() dto: DChannelOwnerSet,
+  ) {
+    const result = await this.channelService.setOwner(
+      params.id, // ID канала
+      dto.id, // ID владельца
+    );
+    if (result.affected == 0) throw new NotFoundException('NOT_FOUND');
+  }
 }
