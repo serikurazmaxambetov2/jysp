@@ -13,7 +13,9 @@ import { ChannelService } from './channel.service';
 import { DChannelCreate } from './dto/create.dto';
 import { DChannelFindById } from './dto/find-by-id.dto';
 import { DChannelOwnerSet } from './dto/channel-owner-set.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('channel')
 @Controller('channel')
 export class ChannelController {
   constructor(private channelService: ChannelService) {}
@@ -49,5 +51,7 @@ export class ChannelController {
       dto.id, // ID владельца
     );
     if (result.affected == 0) throw new NotFoundException('NOT_FOUND');
+
+    console.log(result);
   }
 }
