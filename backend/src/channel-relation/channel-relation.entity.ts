@@ -1,3 +1,4 @@
+import { ESession } from '../session/session.entity';
 import { EChannel } from '../channel/channel.entity';
 import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
 
@@ -16,4 +17,8 @@ export class EChannelRelation {
   @ManyToOne(() => EChannel)
   @JoinColumn({ name: 'to_channel_id' })
   toChannel: Relation<EChannel>;
+
+  @ManyToOne(() => ESession, (session) => session.listenRelations)
+  @JoinColumn({ name: 'session_id' })
+  session: Relation<ESession>;
 }
