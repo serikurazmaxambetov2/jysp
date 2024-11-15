@@ -30,9 +30,12 @@ export class ChannelService {
   }
 
   async setOwner(channelId: number, ownerId: number) {
-    return await this.channelRepo.update(
-      { id: channelId },
-      { owner: { id: ownerId } },
-    );
+    const channel = await this.findById(channelId);
+    if (!channel) return false;
+
+    // @ts-expect-error Ignore type
+    channel.owner = { id: ownerId };
+
+    return await this.channelRepo.save(channel);
   }
 }

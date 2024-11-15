@@ -3,8 +3,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   NotFoundException,
   Param,
   Post,
@@ -41,17 +39,14 @@ export class ChannelController {
   }
 
   @Post(':id/owner')
-  @HttpCode(HttpStatus.NO_CONTENT)
   async setOwner(
     @Param() params: DChannelFindById,
     @Body() dto: DChannelOwnerSet,
   ) {
-    const result = await this.channelService.setOwner(
+    const channel = await this.channelService.setOwner(
       params.id, // ID канала
       dto.id, // ID владельца
     );
-    if (result.affected == 0) throw new NotFoundException('NOT_FOUND');
-
-    console.log(result);
+    if (!channel) return channel;
   }
 }
