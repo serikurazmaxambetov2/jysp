@@ -10,7 +10,9 @@ import {
 import { TelegramUserService } from './telegram-user.service';
 import { DTelegramUserCreate } from './dto/create.dto';
 import { DTelegramUserFindById } from './dto/find-by-id.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('telegram-user')
 @Controller('telegram-user')
 export class TelegramUserController {
   constructor(private telegramUserService: TelegramUserService) {}
