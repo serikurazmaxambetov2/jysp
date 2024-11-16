@@ -16,10 +16,6 @@ export class ChannelRelationService {
     return await this.channelRelationRepo.save(dto);
   }
 
-  async findOneById(id: string) {
-    return await this.channelRelationRepo.findOne({ where: { id } });
-  }
-
   async checkExists(dto: DChannelRelationCreate) {
     const relation = await this.channelRelationRepo.findOne({ where: dto });
 
