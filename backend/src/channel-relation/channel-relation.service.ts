@@ -19,16 +19,18 @@ export class ChannelRelationService {
   async checkExists(dto: DChannelRelationCreate) {
     const relation = await this.channelRelationRepo.findOne({ where: dto });
 
+    // Если уже существует возвращаем true
+    if (relation) {
+      return true;
+    }
+
     // Проверка по цепочке
     const cyclicExists = await this.checkCyclicExists(dto);
 
-    return relation || cyclicExists;
+    return cyclicExists;
   }
 
-  private async checkCyclicExists(dto: {
-    fromChannel: { id: number };
-    toChannel: { id: number };
-  }) {
+  private async checkCyclicExists(dto: DChannelRelationCreate) {
     const { fromChannel, toChannel } = dto;
     const visitedChannels = new Set<number>();
 
@@ -36,34 +38,32 @@ export class ChannelRelationService {
       return true;
     }
 
-    const hasCycle = async (
-      currentChannelId: number,
-      targetChannelId: number,
-    ) => {
-      if (visitedChannels.has(currentChannelId)) {
+    const hasCycle = async (fromChannelId: number, toChannelId: number) => {
+      if (visitedChannels.has(fromChannelId)) {
         return false; // Избегаем повторного посещения узлов
       }
 
-      visitedChannels.add(currentChannelId);
+      visitedChannels.add(fromChannelId);
 
       const relations = await this.channelRelationRepo.find({
-        where: { fromChannel: { id: currentChannelId } },
+        where: { toChannel: { id: fromChannelId } },
       });
 
       for (const relation of relations) {
-        if (relation.toChannel.id === targetChannelId) {
-          return true; // Обнаружен цикл
+        console.log(relation);
+        if (relation.fromChannel.id === toChannelId) {
+          return true;
         }
 
-        if (await hasCycle(relation.toChannel.id, targetChannelId)) {
+        if (await hasCycle(relation.fromChannel.id, toChannelId)) {
           return true;
         }
       }
 
-      return false; // Если ни один путь не ведет к целевому каналу
+      return false;
     };
 
-    return await hasCycle(toChannel.id, fromChannel.id);
+    return await hasCycle(fromChannel.id, toChannel.id);
   }
 
   async delete(dto: DChannelRelationDelete) {
