@@ -8,10 +8,16 @@ import {
   OneToMany,
   Relation,
 } from 'typeorm';
+import { NumberTransformer } from '../database/transformers/number.transformer';
 
 @Entity('channel')
 export class EChannel {
-  @Column({ type: 'bigint', primary: true, unique: true })
+  @Column({
+    type: 'bigint',
+    primary: true,
+    unique: true,
+    transformer: [NumberTransformer],
+  })
   id: number;
 
   @Column({ type: 'text' })

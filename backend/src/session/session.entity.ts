@@ -8,10 +8,16 @@ import {
   OneToMany,
   Relation,
 } from 'typeorm';
+import { NumberTransformer } from 'src/database/transformers/number.transformer';
 
 @Entity('session')
 export class ESession {
-  @Column({ type: 'bigint', primary: true, unique: true })
+  @Column({
+    type: 'bigint',
+    primary: true,
+    unique: true,
+    transformer: [NumberTransformer],
+  })
   id: number;
 
   @Column({ type: 'text', name: 'full_name' })
