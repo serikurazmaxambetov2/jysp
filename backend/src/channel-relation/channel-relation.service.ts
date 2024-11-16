@@ -13,7 +13,7 @@ export class ChannelRelationService {
   ) {}
 
   async create(dto: DChannelRelationCreate) {
-    return await this.channelRelationRepo.save(dto);
+    return await this.channelRelationRepo.save(dto, { reload: true });
   }
 
   async checkExists(dto: DChannelRelationCreate) {
