@@ -41,6 +41,8 @@ export class TelegramUserService {
       },
     });
 
+    if (!user) return false;
+
     return user.channels;
   }
 }
