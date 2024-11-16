@@ -5,6 +5,8 @@ import { dataSourceOptions } from './database/data.source';
 import { ChannelRelationModule } from './channel-relation/channel-relation.module';
 import { SessionModule } from './session/session.module';
 import { TelegramUserModule } from './telegram-user/telegram-user.module';
+import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -13,6 +15,21 @@ import { TelegramUserModule } from './telegram-user/telegram-user.module';
     ChannelRelationModule,
     SessionModule,
     TelegramUserModule,
+    I18nModule.forRoot({
+      fallbackLanguage: 'ru',
+      loaderOptions: {
+        path: join(__dirname, 'i18n'),
+        watch: true,
+      },
+      typesOutputPath: join(
+        __dirname,
+        '..',
+        'src',
+        'generated',
+        'i18n.generated.ts',
+      ),
+      resolvers: [AcceptLanguageResolver],
+    }),
   ],
 })
 export class AppModule {}

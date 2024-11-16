@@ -1,0 +1,10 @@
+{
+  "IS_NUMBER": "{property} должен быть числом [{value}]",
+  "IS_STRING": "{property} должен быть строкой [{value}]",
+  "IS_NEGATIVE": "{property} должен быть отрицательным [{value}]",
+  "IS_NOT_EMPTY": "{property} не должен быть пустым [{value}]",
+  "MIN_LENGTH": "{property} имеет меньшую длину",
+  "IS_URL": "{property} должен быть ссылкой [{value}]",
+  "NOT_FOUND": "Не удалось найти",
+  "ALREADY_EXISTS": "Уже существует"
+}

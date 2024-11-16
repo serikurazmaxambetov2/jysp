@@ -12,11 +12,16 @@ import { DChannelCreate } from './dto/create.dto';
 import { DChannelFindById } from './dto/find-by-id.dto';
 import { DChannelOwnerSet } from './dto/channel-owner-set.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { I18nService } from 'nestjs-i18n';
+import { I18nTranslations } from 'src/generated/i18n.generated';
 
 @ApiTags('channel')
 @Controller('channel')
 export class ChannelController {
-  constructor(private channelService: ChannelService) {}
+  constructor(
+    private channelService: ChannelService,
+    private i18n: I18nService<I18nTranslations>,
+  ) {}
 
   @Post()
   async create(@Body() dto: DChannelCreate) {
@@ -24,7 +29,8 @@ export class ChannelController {
     const channelExists = await this.channelService.exists({
       where: { id: dto.id },
     });
-    if (channelExists) throw new BadRequestException('ALREADY_EXISTS');
+    if (channelExists)
+      throw new BadRequestException(this.i18n.t('validation.ALREADY_EXISTS'));
 
     return await this.channelService.create(dto);
   }
@@ -33,7 +39,8 @@ export class ChannelController {
   async findById(@Param() params: DChannelFindById) {
     // Проверка на не существование
     const channel = await this.channelService.findById(params.id);
-    if (!channel) throw new NotFoundException('NOT_FOUND');
+    if (!channel)
+      throw new NotFoundException(this.i18n.t('validation.NOT_FOUND'));
 
     return channel;
   }
@@ -48,7 +55,8 @@ export class ChannelController {
       params.id, // ID канала
       dto.id, // ID владельца
     );
-    if (!channel) throw new NotFoundException('NOT_FOUND');
+    if (!channel)
+      throw new NotFoundException(this.i18n.t('validation.NOT_FOUND'));
 
     return await this.channelService.findById(channel.id);
   }

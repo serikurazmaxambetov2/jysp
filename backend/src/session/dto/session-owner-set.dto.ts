@@ -3,6 +3,6 @@ import { IsNumber } from 'class-validator';
 
 export class DSessionOwnerSet {
   @ApiProperty({ type: 'number' })
-  @IsNumber({}, { message: 'IS_NUMBER' })
+  @IsNumber({}, { message: 'validation.IS_NUMBER' })
   id: number;
 }

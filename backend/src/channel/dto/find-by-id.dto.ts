@@ -4,8 +4,8 @@ import { IsNegative, IsNumber } from 'class-validator';
 
 export class DChannelFindById {
   @ApiProperty({ type: 'number', maximum: -1 })
-  @IsNegative({ message: 'IS_NEGATIVE' })
-  @IsNumber({}, { message: 'IS_NUMBER' })
+  @IsNegative({ message: 'validation.IS_NEGATIVE' })
+  @IsNumber({}, { message: 'validation.IS_NUMBER' })
   @Transform(({ value }: { value: string }) => +value)
   id: number;
 }

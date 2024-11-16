@@ -4,7 +4,7 @@ import { IsNumber } from 'class-validator';
 
 export class DTelegramUserFindById {
   @ApiProperty({ type: 'number' })
-  @IsNumber({}, { message: 'IS_NUMBER' })
+  @IsNumber({}, { message: 'validation.IS_NUMBER' })
   @Transform(({ value }: { value: string }) => +value)
   id: number;
 }

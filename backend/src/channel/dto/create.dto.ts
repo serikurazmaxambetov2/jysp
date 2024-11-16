@@ -9,18 +9,18 @@ import {
 
 export class DChannelCreate {
   @ApiProperty({ type: 'number', maximum: -1 })
-  @IsNegative({ message: 'IS_NEGATIVE' })
-  @IsNumber({}, { message: 'IS_NUMBER' })
+  @IsNegative({ message: 'validation.IS_NEGATIVE' })
+  @IsNumber({}, { message: 'validation.IS_NUMBER' })
   id: number;
 
   @ApiProperty({ type: 'string', minLength: 1 })
-  @IsNotEmpty({ message: 'IS_NOT_EMPTY' })
-  @IsString({ message: 'IS_STRING' })
+  @IsNotEmpty({ message: 'validation.IS_NOT_EMPTY' })
+  @IsString({ message: 'validation.IS_STRING' })
   title: string;
 
   @ApiProperty({ type: 'string' })
-  @IsUrl({ host_whitelist: ['t.me'] }, { message: 'IS_URL' })
-  @IsString({ message: 'IS_STRING' })
+  @IsUrl({ host_whitelist: ['t.me'] }, { message: 'validation.IS_URL' })
+  @IsString({ message: 'validation.IS_STRING' })
   link: string;
 
   // Для чтобы задать owner есть отдельный endpoint
