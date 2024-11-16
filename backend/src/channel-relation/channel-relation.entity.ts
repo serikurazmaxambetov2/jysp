@@ -10,11 +10,11 @@ export class EChannelRelation {
   @Column({ type: 'text', nullable: true, name: 'display_name' })
   displayName?: string;
 
-  @ManyToOne(() => EChannel)
+  @ManyToOne(() => EChannel, { eager: true })
   @JoinColumn({ name: 'from_channel_id' })
   fromChannel: Relation<EChannel>;
 
-  @ManyToOne(() => EChannel)
+  @ManyToOne(() => EChannel, { eager: true })
   @JoinColumn({ name: 'to_channel_id' })
   toChannel: Relation<EChannel>;
 

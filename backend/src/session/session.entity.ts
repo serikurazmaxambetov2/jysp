@@ -23,7 +23,9 @@ export class ESession {
   @Column({ type: 'text', unique: true })
   username: string;
 
-  @OneToMany(() => EChannelRelation, (relation) => relation.session)
+  @OneToMany(() => EChannelRelation, (relation) => relation.session, {
+    eager: true,
+  })
   listenRelations: Relation<EChannelRelation[]>;
 
   @ManyToOne(() => ETelegramUser, (telegramUser) => telegramUser.sessions, {
