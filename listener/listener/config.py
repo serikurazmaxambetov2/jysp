@@ -1,5 +1,6 @@
 import os
 
+USER_ID = int(os.getenv("USER_ID", "0"))
 SESSION_STRING = os.getenv("SESSION_STRING", "")
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:3000/")
