@@ -1,11 +1,18 @@
 import { ESession } from '../session/session.entity';
 import { EChannel } from '../channel/channel.entity';
-import { Column, Entity, JoinColumn, ManyToOne, Relation } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+} from 'typeorm';
 
 @Entity('channel_relation')
 export class EChannelRelation {
-  @Column({ type: 'bigint', primary: true, unique: true })
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'text', nullable: true, name: 'display_name' })
   displayName?: string;
