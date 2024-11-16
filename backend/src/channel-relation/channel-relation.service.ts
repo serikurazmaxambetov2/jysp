@@ -30,8 +30,11 @@ export class ChannelRelationService {
     toChannel: { id: number };
   }) {
     const { fromChannel, toChannel } = dto;
-
     const visitedChannels = new Set<number>();
+
+    if (fromChannel.id === toChannel.id) {
+      return true;
+    }
 
     const hasCycle = async (
       currentChannelId: number,
