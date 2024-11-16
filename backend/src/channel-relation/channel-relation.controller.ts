@@ -11,7 +11,9 @@ import {
 import { ChannelRelationService } from './channel-relation.service';
 import { DChannelRelationCreate } from './dto/create.dto';
 import { DChannelRelationDelete } from './dto/delete.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('channel-relation')
 @Controller('channel-relation')
 export class ChannelRelationController {
   constructor(private channelRelationService: ChannelRelationService) {}
