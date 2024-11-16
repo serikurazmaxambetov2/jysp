@@ -19,9 +19,9 @@ export class ETelegramUser {
   @Column({ type: 'text', nullable: true })
   username?: string;
 
-  @OneToMany(() => EChannel, (channel) => channel.owner, { eager: true })
+  @OneToMany(() => EChannel, (channel) => channel.owner)
   channels: Relation<EChannel[]>;
 
-  @OneToMany(() => ESession, (session) => session.owner, { eager: true })
+  @OneToMany(() => ESession, (session) => session.owner)
   sessions: Relation<ESession[]>;
 }
