@@ -19,3 +19,5 @@ ALLOWED_MEDIA_TYPES = [
     MessageMediaType.VIDEO_NOTE,
     MessageMediaType.VOICE,
 ]
+
+ALLOWED_SERVICE_TYPES = []
