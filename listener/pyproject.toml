@@ -11,6 +11,7 @@ python = "^3.11"
 pyrofork = "^2.3.48"
 tgcrypto = "^1.2.5"
 aiohttp = "^3.11.2"
+aio-pika = "^9.4.3"
 
 
 [build-system]
