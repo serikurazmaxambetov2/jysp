@@ -1,8 +1,9 @@
-from pyrogram import types
+from pyrogram import filters, types
 
 from ..services import api_service
 
 
+@filters.create
 async def backend_check_filter(_, __, msg: types.Message):
     relations = await api_service.get_relations()
     for relation in relations:
