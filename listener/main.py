@@ -12,7 +12,7 @@ app = Client("unnamed", session_string=config.SESSION_STRING, in_memory=True)
 
 @app.on_message(
     filters.channel
-    # & custom_filters.backend_check_filter
+    & custom_filters.backend_check_filter
     & custom_filters.once_media_filter
     & custom_filters.media_type_filter
     & custom_filters.service_type_filter
