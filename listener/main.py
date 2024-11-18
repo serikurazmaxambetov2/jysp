@@ -36,7 +36,10 @@ async def handle(_: Client, msg: types.Message):
         send_data["media_group_type"] = media_group[0].media
 
         # Получаем все медиа с текстом
-        messages_with_caption = filter(lambda message: message.caption, media_group)
+        messages_with_caption = filter(
+            lambda message: message.caption,
+            media_group,
+        )
 
         # Получаем все тексты в медиа группе
         texts = [message.caption for message in messages_with_caption]
