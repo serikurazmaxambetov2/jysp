@@ -6,5 +6,6 @@
   "MIN_LENGTH": "{property} имеет меньшую длину",
   "IS_URL": "{property} должен быть ссылкой [{value}]",
   "NOT_FOUND": "Не удалось найти",
-  "ALREADY_EXISTS": "Уже существует"
+  "ALREADY_EXISTS": "Уже существует",
+  "SESSION_NOT_ENOUGH": "Пока-что для прослушки сессий не удалось найти попробуйте позже"
 }

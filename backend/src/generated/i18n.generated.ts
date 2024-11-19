@@ -14,6 +14,7 @@ export type I18nTranslations = {
         "IS_URL": string;
         "NOT_FOUND": string;
         "ALREADY_EXISTS": string;
+        "SESSION_NOT_ENOUGH": string;
     };
 };
 /* prettier-ignore */
