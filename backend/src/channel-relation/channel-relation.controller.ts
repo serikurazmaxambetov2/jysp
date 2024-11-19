@@ -25,11 +25,19 @@ export class ChannelRelationController {
 
   @Post()
   async create(@Body() dto: DChannelRelationCreate) {
-    const channelExists = await this.channelRelationService.checkExists(dto);
-    if (channelExists)
+    // Проверяем нет ли уже в бд таких связок
+    const relationExists = await this.channelRelationService.checkExists(dto);
+    if (relationExists)
       throw new BadRequestException(this.i18n.t('validation.ALREADY_EXISTS'));
 
-    return await this.channelRelationService.create(dto);
+    // Создаем связку
+    const createdRelation = await this.channelRelationService.create(dto);
+    if (!createdRelation)
+      throw new BadRequestException(
+        this.i18n.t('validation.SESSION_NOT_ENOUGH'),
+      );
+
+    return createdRelation;
   }
 
   @Delete()
