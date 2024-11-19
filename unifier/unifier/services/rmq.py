@@ -18,7 +18,9 @@ class RabbitMQService:
         """Получить соединение"""
         return await aio_pika.connect_robust(self.url)
 
-    async def _get_channel_and_queue(self, connection, queue_name: str):
+    async def _get_channel_and_queue(
+        self, connection: aio_pika.abc.AbstractConnection, queue_name: str
+    ):
         """Получить канал и объявить очередь."""
         channel = await connection.channel()
         queue = await channel.declare_queue(queue_name, durable=True)
