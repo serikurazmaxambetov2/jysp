@@ -4,16 +4,24 @@ import { EChannelRelation } from './channel-relation.entity';
 import { Repository } from 'typeorm';
 import { DChannelRelationCreate } from './dto/create.dto';
 import { DChannelRelationDelete } from './dto/delete.dto';
+import { SessionService } from 'src/session/session.service';
 
 @Injectable()
 export class ChannelRelationService {
   constructor(
     @InjectRepository(EChannelRelation)
     private channelRelationRepo: Repository<EChannelRelation>,
+    private sessionService: SessionService,
   ) {}
 
   async create(dto: DChannelRelationCreate) {
-    return await this.channelRelationRepo.save(dto, { reload: true });
+    const freeSession = await this.sessionService.getFreeSession();
+    if (!freeSession) return null;
+
+    return await this.channelRelationRepo.save(
+      { ...dto, session: freeSession },
+      { reload: true },
+    );
   }
 
   async checkExists(dto: DChannelRelationCreate) {
@@ -26,7 +34,6 @@ export class ChannelRelationService {
 
     // Проверка по цепочке
     const cyclicExists = await this.checkCyclicExists(dto);
-
     return cyclicExists;
   }
 
@@ -50,7 +57,6 @@ export class ChannelRelationService {
       });
 
       for (const relation of relations) {
-        console.log(relation);
         if (relation.fromChannel.id === toChannelId) {
           return true;
         }
