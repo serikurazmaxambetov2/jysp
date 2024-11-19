@@ -8,7 +8,7 @@ import {
   OneToMany,
   Relation,
 } from 'typeorm';
-import { NumberTransformer } from 'src/database/transformers/number.transformer';
+import { NumberTransformer } from '../database/transformers/number.transformer';
 
 @Entity('session')
 export class ESession {

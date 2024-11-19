@@ -13,7 +13,7 @@ import { DChannelRelationCreate } from './dto/create.dto';
 import { DChannelRelationDelete } from './dto/delete.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { I18nService } from 'nestjs-i18n';
-import { I18nTranslations } from 'src/generated/i18n.generated';
+import { I18nTranslations } from '../generated/i18n.generated';
 
 @ApiTags('channel-relation')
 @Controller('channel-relation')

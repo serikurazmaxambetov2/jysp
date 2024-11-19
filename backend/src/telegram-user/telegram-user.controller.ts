@@ -12,7 +12,7 @@ import { DTelegramUserCreate } from './dto/create.dto';
 import { DTelegramUserFindById } from './dto/find-by-id.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { I18nService } from 'nestjs-i18n';
-import { I18nTranslations } from 'src/generated/i18n.generated';
+import { I18nTranslations } from '../generated/i18n.generated';
 
 @ApiTags('telegram-user')
 @Controller('telegram-user')
