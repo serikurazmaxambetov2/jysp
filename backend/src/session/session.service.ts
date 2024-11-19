@@ -31,12 +31,12 @@ export class SessionService {
   async getFreeSession() {
     return await this.sessionRepo
       .createQueryBuilder('session')
-      .leftJoinAndSelect('session.listenRelations', 'relation')
-      .where('relation.id IS NOT NULL')
+      .leftJoin('session.listenRelations', 'relation')
       .groupBy('session.id')
-      .having('COUNT(relation.id) <= :count', {
+      .having('COUNT(relation.id) < :count', {
         count: process.env.MAX_SESSION_RELATIONS,
       })
+      .select('session')
       .getOne();
   }
 
