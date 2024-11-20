@@ -17,6 +17,7 @@ class ApiService:
 
         async with client:
             response = await client.get(f"/session/{config.USER_ID}/")
+            response.raise_for_status()
             json_data = await response.json()
 
             return json_data.get("listenRelations")
