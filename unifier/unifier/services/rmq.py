@@ -1,3 +1,4 @@
+import logging
 from typing import Awaitable, Callable
 
 import aio_pika
@@ -8,6 +9,8 @@ OnMessage = Callable[
     [aio_pika.abc.AbstractIncomingMessage],
     Awaitable[None],
 ]
+
+logger = logging.getLogger(__name__)
 
 
 class RabbitMQService:
@@ -27,18 +30,23 @@ class RabbitMQService:
         return channel, queue
 
     async def consume(self, queue_name: str, on_message: OnMessage):
+        logger.info(f"Слушаем сообщения в очереди: {queue_name}")
+
         connection = await self._get_connection()
         async with connection:
             _, queue = await self._get_channel_and_queue(connection, queue_name)
             async with queue.iterator() as queue_iter:
                 async for message in queue_iter:
                     async with message.process():
+                        logger.info("Получил сообщение")
                         try:
                             await on_message(message)
                         except Exception:
                             pass
 
     async def publish(self, queue_name: str, body: bytes):
+        logger.info(f"Отправка сообщения в очередь: {queue_name}")
+
         connection = await self._get_connection()
         async with connection:
             channel, _ = await self._get_channel_and_queue(connection, queue_name)

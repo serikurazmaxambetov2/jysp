@@ -1,5 +1,5 @@
 from aiolimiter import AsyncLimiter
-from g4f.client import AsyncClient
+from g4f.client import AsyncClient, logging
 from g4f.client.stubs import ChatCompletion
 
 from ...utils.extract_unique_text import extract_unique_text
@@ -7,11 +7,13 @@ from .base import BaseUnifier
 
 limiter = AsyncLimiter(10, 60)
 client = AsyncClient()
+logger = logging.getLogger(__name__)
 
 
 class G4FUnifier(BaseUnifier):
     @staticmethod
     async def unify(text: str) -> str:
+        logger.info(f"Делаем текст уникальным: {text}")
         # Формируем сообщение для обработки
         messages = [
             {
@@ -28,6 +30,7 @@ class G4FUnifier(BaseUnifier):
 
         # Работаем через limiter
         async with limiter:
+            logger.info("Отправка запроса")
             response: (
                 ChatCompletion
             ) = await client.chat.completions.create(  # type: ignore
@@ -37,8 +40,10 @@ class G4FUnifier(BaseUnifier):
             gpt_response: str = response.choices[0].message.content  # type: ignore
 
             if gpt_response == "Request ended with status code 404":
+                logger.info("404. Пробуем снова")
                 return await G4FUnifier.unify(text)
 
+            logger.info("Получение уникального текста из ответа")
             # Если есть текст то получаем его иначе пробуем снова
             return extract_unique_text(
                 gpt_response,
