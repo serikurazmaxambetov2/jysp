@@ -62,7 +62,6 @@ async def handle(_: Client, msg: types.Message):
     elif msg.media:
         logger.info("Добавление данных")
         # Формируем данные для отправки
-        send_data["media"] = msg.download
         send_data["original_text"] = msg.caption
         send_data["media_type"] = msg.media
 
