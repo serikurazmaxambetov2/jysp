@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 aio-pika = "^9.4.3"
 aiohttp = "^3.11.6"
+pyrofork = "^2.3.48"
 
 
 [build-system]

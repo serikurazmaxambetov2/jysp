@@ -510,6 +510,60 @@ files = [
 ]
 
 [[package]]
+name = "pyaes"
+version = "1.6.1"
+description = "Pure-Python Implementation of the AES block-cipher and common modes of operation"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pyaes-1.6.1.tar.gz", hash = "sha256:02c1b1405c38d3c370b085fb952dd8bea3fadcee6411ad99f312cc129c536d8f"},
+]
+
+[[package]]
+name = "pymediainfo-pyrofork"
+version = "6.0.2"
+description = "A Python wrapper for the mediainfo library."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "pymediainfo_pyrofork-6.0.2-py2.py3-none-any.whl", hash = "sha256:674fa8e53de861635b9dc4f77c2ad712306a798bf28864952503bf328210c4c3"},
+    {file = "pymediainfo_pyrofork-6.0.2.tar.gz", hash = "sha256:fce9402edfd1fa09aba7b3cac4c41ba7fcf6820e561b4db4f9c1a1a68c487c36"},
+]
+
+[[package]]
+name = "pyrofork"
+version = "2.3.48"
+description = "Fork of pyrogram. Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots"
+optional = false
+python-versions = "~=3.9"
+files = [
+    {file = "pyrofork-2.3.48-py3-none-any.whl", hash = "sha256:c93fd88a42912b6c576267e9b51b949fd9e0cb4377d6a4214e367334c96e928c"},
+    {file = "pyrofork-2.3.48.tar.gz", hash = "sha256:7a02b88c5668bad307420060a43fd717ef9737c164830689ad33e6d2384ac772"},
+]
+
+[package.dependencies]
+pyaes = "1.6.1"
+pymediainfo-pyrofork = ">=6.0.1,<7.0.0"
+pysocks = "1.7.1"
+
+[package.extras]
+dev = ["hatch (>=1.7.0)", "pytest (>=7.4.3)", "pytest-asyncio (>=0.21.1)", "pytest-cov (>=4.1.0)", "twine (>=4.0.2)"]
+docs = ["sphinx", "sphinx-autobuild", "sphinx-copybutton", "sphinx-immaterial (==0.12.3)", "tornado (>=6.3.3)"]
+speedup = ["tgcrypto-pyrofork (>=1.2.6)", "uvloop (>=0.19.0)"]
+
+[[package]]
+name = "pysocks"
+version = "1.7.1"
+description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+files = [
+    {file = "PySocks-1.7.1-py27-none-any.whl", hash = "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299"},
+    {file = "PySocks-1.7.1-py3-none-any.whl", hash = "sha256:2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5"},
+    {file = "PySocks-1.7.1.tar.gz", hash = "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"},
+]
+
+[[package]]
 name = "yarl"
 version = "1.17.2"
 description = "Yet another URL library"
@@ -608,4 +662,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "fcb66b9c6ef518e3e2339c257f8a1345481f63f74e3b4fdc2cf7a5e86c752f34"
+content-hash = "a03393939704e5164db09d784493af353cafd79c5448563690a6d0ba5092441c"
