@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "publisher"
+version = "0.1.0"
+description = ""
+authors = ["Serik Urazmaxambetov <serikurazmaxambetov.v2@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.autoflake]
+remove-all-unused-imports = true
+ignore-init-module-imports = true
