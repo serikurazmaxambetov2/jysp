@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EChannelRelation } from './channel-relation.entity';
 import { Repository } from 'typeorm';
@@ -8,6 +8,8 @@ import { SessionService } from 'src/session/session.service';
 
 @Injectable()
 export class ChannelRelationService {
+  private logger = new Logger(ChannelRelationService.name);
+
   constructor(
     @InjectRepository(EChannelRelation)
     private channelRelationRepo: Repository<EChannelRelation>,
@@ -15,6 +17,8 @@ export class ChannelRelationService {
   ) {}
 
   async create(dto: DChannelRelationCreate) {
+    this.logger.log(`Создание канала с dto:\n${dto}`);
+
     const freeSession = await this.sessionService.getFreeSession();
     if (!freeSession) return null;
 
@@ -25,10 +29,13 @@ export class ChannelRelationService {
   }
 
   async checkExists(dto: DChannelRelationCreate) {
+    this.logger.log(`Проверка на существование с dto:\n${dto}`);
+
     const relation = await this.channelRelationRepo.findOne({ where: dto });
 
     // Если уже существует возвращаем true
     if (relation) {
+      this.logger.log(`Существует`);
       return true;
     }
 
@@ -38,10 +45,13 @@ export class ChannelRelationService {
   }
 
   private async checkCyclicExists(dto: DChannelRelationCreate) {
+    this.logger.log(`Проверка на циклическое существование с dto:\n${dto}`);
+
     const { fromChannel, toChannel } = dto;
     const visitedChannels = new Set<number>();
 
     if (fromChannel.id === toChannel.id) {
+      this.logger.log('Канал получателя равен каналу отправителя ошибка!');
       return true;
     }
 
@@ -52,11 +62,17 @@ export class ChannelRelationService {
 
       visitedChannels.add(fromChannelId);
 
+      this.logger.log(
+        `Получаем все связки по fromChannelId(${fromChannelId}), toChannelId(${toChannelId})`,
+      );
       const relations = await this.channelRelationRepo.find({
         where: { toChannel: { id: fromChannelId } },
       });
 
       for (const relation of relations) {
+        this.logger.log(
+          `Проверка ${relation.fromChannel.id} === ${toChannelId}`,
+        );
         if (relation.fromChannel.id === toChannelId) {
           return true;
         }
@@ -73,6 +89,7 @@ export class ChannelRelationService {
   }
 
   async delete(dto: DChannelRelationDelete) {
+    this.logger.log(`Удаление связки по dto:\n${dto}`);
     return await this.channelRelationRepo.delete(dto);
   }
 }
