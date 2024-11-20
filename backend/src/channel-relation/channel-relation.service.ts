@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { DChannelRelationCreate } from './dto/create.dto';
 import { DChannelRelationDelete } from './dto/delete.dto';
 import { SessionService } from 'src/session/session.service';
+import { DChannelRelationFind } from './dto/find.dto';
 
 @Injectable()
 export class ChannelRelationService {
@@ -91,5 +92,16 @@ export class ChannelRelationService {
   async delete(dto: DChannelRelationDelete) {
     this.logger.log(`Удаление связки по dto:\n${dto}`);
     return await this.channelRelationRepo.delete(dto);
+  }
+
+  async find(dto: DChannelRelationFind) {
+    this.logger.log(`Получение связок по dto:\n${dto}`);
+    return await this.channelRelationRepo.find({
+      where: dto,
+      relations: {
+        fromChannel: true,
+        toChannel: true,
+      },
+    });
   }
 }

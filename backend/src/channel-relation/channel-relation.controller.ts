@@ -14,6 +14,7 @@ import { DChannelRelationDelete } from './dto/delete.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { I18nService } from 'nestjs-i18n';
 import { I18nTranslations } from '../generated/i18n.generated';
+import { DChannelRelationFind } from './dto/find.dto';
 
 @ApiTags('channel-relation')
 @Controller('channel-relation')
@@ -38,6 +39,11 @@ export class ChannelRelationController {
       );
 
     return createdRelation;
+  }
+
+  @Post('find')
+  async find(@Body() dto: DChannelRelationFind) {
+    return await this.channelRelationService.find(dto);
   }
 
   @Delete()
