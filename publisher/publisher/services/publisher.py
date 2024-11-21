@@ -65,7 +65,7 @@ class PublisherService:
             )
 
         if self.media_type:
-            media = getattr(self.msg, self.media_type.value.upper(), None)  # type: ignore
+            media = getattr(self.msg, self.media_type.value, None)  # type: ignore
             logger.debug("Выбрана стратегия MediaPublisherStrategy")
             return MediaPublisherStrategy(
                 file_id=media.file_id,  # type: ignore
@@ -121,4 +121,4 @@ class PublisherService:
             logger.info("Сообщение успешно опубликовано")
             return result
         except Exception as e:
-            logger.error("Ошибка при публикации сообщения: %s", e, exc_info=True)
+            logger.error("Ошибка при публикации сообщения: %s", e)

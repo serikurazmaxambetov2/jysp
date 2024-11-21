@@ -24,7 +24,10 @@ class MediaPublisherStrategy(PublisherStrategy):
         if not send_method:
             return False
 
-        kwargs = {"chat_id": to_channel_id, "media": self.file_id}
+        kwargs = {
+            "chat_id": to_channel_id,
+            self.media_type.value.lower(): self.file_id,  # type: ignore
+        }
         if self.media_type != MessageMediaType.VIDEO_NOTE:
             kwargs["caption"] = self.caption
 

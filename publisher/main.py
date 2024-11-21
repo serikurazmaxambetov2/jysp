@@ -22,8 +22,6 @@ async def on_message(msg: aio_pika.abc.AbstractIncomingMessage):
         async with bot:
             await publisher.publish(bot)
 
-        logger.info("Сообщение успешно опубликовано.")
-
     except Exception as e:
         logger.error(f"Ошибка при обработке сообщения: {e}")
 
