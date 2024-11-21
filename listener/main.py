@@ -24,7 +24,6 @@ async def handle(_: Client, msg: types.Message):
     # Формируем данные для отправки
     send_data: Dict[str, Any] = {
         "original_message": repr(msg),
-        "session_string": config.SESSION_STRING,
         "quote_text": msg.quote_text,
         "quote_entities": repr(msg.quote_entities),
     }
