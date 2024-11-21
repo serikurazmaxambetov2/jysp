@@ -23,7 +23,7 @@ class RabbitMQService:
         # Слушаем сообщения
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:
-                logger.info("Новое сообщение")
+                logger.info("Новое сообщение в очереди")
 
                 async with message.process():
                     try:
