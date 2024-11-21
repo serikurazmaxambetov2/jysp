@@ -1,17 +1,20 @@
 import logging
-from typing import Any, Dict, Union
 
 from pyrogram import Client, filters, types  # type: ignore
 
 from listener import config
 from listener import filters as custom_filters
 from listener import utils
-from listener.services import rmq_service
+from listener.handlers import MediaGroupHandler, MediaHandler, TextHandler
+from listener.services import api_service, rmq_service
+from listener.types import SendData
 
+# Инициализация клиента и логгера
 app = Client("unnamed", session_string=config.SESSION_STRING, in_memory=True)
 logger = logging.getLogger(__name__)
 
 
+# Основная логика обработки сообщений
 @app.on_message(
     filters.channel
     & custom_filters.backend_check_filter
@@ -21,69 +24,49 @@ logger = logging.getLogger(__name__)
 )
 async def handle(_: Client, msg: types.Message):
     logger.info("Формирование данных для отправки")
-    # Формируем данные для отправки
-    send_data: Dict[str, Any] = {
-        "original_message": repr(msg),
-        "quote_text": msg.quote_text,
-        "quote_entities": repr(msg.quote_entities),
+
+    # 1. Подготовка базовых данных для отправки
+    base_send_data: SendData = {
+        "original_message": repr(msg)  # Представление сообщения для отправки
     }
-    queue: Union[str, None] = None
 
-    if msg.media_group_id:
-        logger.info("Получение медиа группы...")
-        # Получаем медиа группу
-        media_group = await msg.get_media_group()
+    # 2. Создание цепочки обработчиков, чтобы обработать типы медиа и текста
+    handler_chain = MediaGroupHandler(MediaHandler(TextHandler()))
 
-        logger.info("Добавление данных")
-        # Добавляем данные для отправки
-        send_data["media_group"] = repr(media_group)
-        send_data["media_group_type"] = media_group[0].media.value
+    # 3. Обработка сообщения через цепочку обработчиков
+    send_data = await handler_chain.handle(msg, base_send_data)
 
-        # Получаем все медиа с текстом
-        messages_with_caption = filter(
-            lambda message: message.caption,
-            media_group,
-        )
+    # 4. Определение очереди для отправки в зависимости от наличия текста
+    queue = (
+        config.UNIFIER_QUEUE
+        if send_data.get("original_text")
+        else config.PUBLISHER_QUEUE
+    )
 
-        # Получаем все тексты в медиа группе
-        texts = [message.caption for message in messages_with_caption]
+    # 5. Получение списка отношений для отправки сообщений в каналы
+    relations = await api_service.get_relations()
 
-        # Проверяем количество caption'ов и отправляем данные
-        if len(texts) != 1:
-            logger.info("Не имеет текста")
-            send_data["original_text"] = None
-            queue = config.PUBLISHER_QUEUE
-        else:
-            logger.info("Положили текст")
-            send_data["original_text"] = texts[0]
-            queue = config.UNIFIER_QUEUE
+    # 6. Отправка сообщений в соответствующие каналы
+    for relation in relations:
+        to_channel_id: int = relation.get("toChannel", {}).get("id")
 
-    elif msg.media:
-        logger.info("Добавление данных")
-        # Формируем данные для отправки
-        send_data["original_text"] = msg.caption
-        send_data["media_type"] = msg.media.value
+        # Добавление ID канала в данные для отправки
+        send_data["to_channel_id"] = to_channel_id
 
-        # Определяем очередь
-        if msg.caption:
-            logger.info("queue=UNIFIER_QUEUE")
-            queue = config.UNIFIER_QUEUE
-        else:
-            logger.info("queue=PUBLISHER_QUEUE")
-            queue = config.PUBLISHER_QUEUE
+        logger.info(f"Отправляем сообщение в канал: {to_channel_id} в очередь: {queue}")
 
-    elif msg.text:
-        logger.info("Сообщение не имеет медиа но имеет текст")
-        send_data["original_text"] = msg.text
-        queue = config.UNIFIER_QUEUE
-
-    # Отправляем если queue не равен None
-    if queue:
+        # Отправка данных в очередь (RabbitMQ)
         await rmq_service.send(utils.dict_to_bytes(send_data), queue)
-    else:
-        logger.info("Сообщение не обработана")
+
+        logger.info(f"Сообщение отправлено в канал {to_channel_id}")
+
+        # Удаляем из данных поле с ID канала, чтобы не отправить его повторно
+        del send_data["to_channel_id"]
 
 
 if __name__ == "__main__":
+    # Настройка уровня логирования
     logging.basicConfig(level=logging.INFO)
+
+    # Запуск клиента
     app.run()
