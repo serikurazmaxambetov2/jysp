@@ -25,6 +25,7 @@ class PublisherService:
         self.media_group_type = self._get_media_type(body.get("media_group_type"))
         self.original_text = body.get("original_text", "")
         self.unique_text = body.get("unique_text", "")
+        self.to_channel_id: int = body.get("to_channel_id")  # type: ignore
 
         logger.debug("Инициализация PublisherService с данными: %s", body)
 
@@ -106,7 +107,7 @@ class PublisherService:
             )
         return handler
 
-    async def publish(self, to_channel_id: int, bot: Bot):
+    async def publish(self, bot: Bot):
         """
         Публикует сообщение с использованием подходящей стратегии.
 
@@ -114,11 +115,10 @@ class PublisherService:
         :param bot: Инстанс бота для отправки сообщения.
         """
         strategy = self.get_strategy()
-        logger.info("Начало публикации сообщения в канал: %d", to_channel_id)
+        logger.info("Начало публикации сообщения в канал: %d", self.to_channel_id)
         try:
-            result = await strategy.publish(to_channel_id, bot)
+            result = await strategy.publish(self.to_channel_id, bot)
             logger.info("Сообщение успешно опубликовано")
             return result
         except Exception as e:
             logger.error("Ошибка при публикации сообщения: %s", e, exc_info=True)
-            raise
