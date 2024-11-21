@@ -15,5 +15,5 @@ class MessageHandler:
         он передает данные следующему обработчику.
         """
         if self.next_handler:
-            return self.next_handler.handle(msg, send_data)
+            return await self.next_handler.handle(msg, send_data)
         return send_data

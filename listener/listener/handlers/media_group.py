@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 class MediaGroupHandler(MessageHandler):
     async def handle(self, msg, send_data):
         if msg.media_group_id:
+            # Отправляем медиа группу в бота чтобы он имел доступ к file_id
+            logger.info("Копируем медиа группу в бота")
+            await msg._client.copy_media_group("olxuzsearchbot", msg.chat.id, msg.id)
+
             logger.info("Обрабатываем медиа группу")
             media_group = await msg.get_media_group()
 
