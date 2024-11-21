@@ -58,7 +58,7 @@ async def handle(_: Client, msg: types.Message):
         # Отправка данных в очередь (RabbitMQ)
         await rmq_service.send(utils.dict_to_bytes(send_data), queue)
 
-        logger.info(f"Сообщение отправлено в канал {to_channel_id}")
+        logger.info(f"Сообщение отправлено в очередь")
 
         # Удаляем из данных поле с ID канала, чтобы не отправить его повторно
         del send_data["to_channel_id"]
