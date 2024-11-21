@@ -37,7 +37,7 @@ async def handle(_: Client, msg: types.Message):
         logger.info("Добавление данных")
         # Добавляем данные для отправки
         send_data["media_group"] = repr(media_group)
-        send_data["media_group_type"] = media_group[0].media
+        send_data["media_group_type"] = media_group[0].media.value
 
         # Получаем все медиа с текстом
         messages_with_caption = filter(
@@ -62,7 +62,7 @@ async def handle(_: Client, msg: types.Message):
         logger.info("Добавление данных")
         # Формируем данные для отправки
         send_data["original_text"] = msg.caption
-        send_data["media_type"] = msg.media
+        send_data["media_type"] = msg.media.value
 
         # Определяем очередь
         if msg.caption:
