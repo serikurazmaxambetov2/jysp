@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   NotFoundException,
+  Param,
   Post,
 } from '@nestjs/common';
 import { ChannelRelationService } from './channel-relation.service';
@@ -15,6 +16,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { I18nService } from 'nestjs-i18n';
 import { I18nTranslations } from '../generated/i18n.generated';
 import { DChannelRelationFind } from './dto/find.dto';
+import { DChannelRelationOptionsUpdate } from './dto/update-options.dto';
+import { DChannelRelationFindById } from './dto/find-by-id.dto';
 
 @ApiTags('channel-relation')
 @Controller('channel-relation')
@@ -52,6 +55,18 @@ export class ChannelRelationController {
     const result = await this.channelRelationService.delete(dto);
 
     // Проверка что удаление произошло успешно
+    if (result.affected == 0)
+      throw new NotFoundException(this.i18n.t('validation.NOT_FOUND'));
+  }
+
+  @Post(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async update(
+    @Body() dto: DChannelRelationOptionsUpdate,
+    @Param() params: DChannelRelationFindById,
+  ) {
+    const result = await this.channelRelationService.update(params.id, dto);
+
     if (result.affected == 0)
       throw new NotFoundException(this.i18n.t('validation.NOT_FOUND'));
   }

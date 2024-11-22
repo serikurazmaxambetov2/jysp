@@ -6,6 +6,7 @@ import { DChannelRelationCreate } from './dto/create.dto';
 import { DChannelRelationDelete } from './dto/delete.dto';
 import { SessionService } from 'src/session/session.service';
 import { DChannelRelationFind } from './dto/find.dto';
+import { DChannelRelationOptionsUpdate } from './dto/update-options.dto';
 
 @Injectable()
 export class ChannelRelationService {
@@ -103,5 +104,9 @@ export class ChannelRelationService {
         toChannel: true,
       },
     });
+  }
+
+  async update(id: string, dto: DChannelRelationOptionsUpdate) {
+    return await this.channelRelationRepo.update({ id }, dto);
   }
 }
