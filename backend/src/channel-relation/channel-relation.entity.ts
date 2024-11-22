@@ -28,4 +28,8 @@ export class EChannelRelation {
   @ManyToOne(() => ESession, (session) => session.listenRelations)
   @JoinColumn({ name: 'session_id' })
   session: Relation<ESession>;
+
+  // Настройки
+  @Column({ type: 'boolean', default: false, name: 'use_ai' })
+  useAi: boolean;
 }
