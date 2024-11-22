@@ -6,8 +6,10 @@ import { Path } from "nestjs-i18n";
 /* prettier-ignore */
 export type I18nTranslations = {
     "validation": {
+        "IS_BOOLEAN": string;
         "IS_NUMBER": string;
         "IS_STRING": string;
+        "IS_UUID": string;
         "IS_NEGATIVE": string;
         "IS_NOT_EMPTY": string;
         "MIN_LENGTH": string;

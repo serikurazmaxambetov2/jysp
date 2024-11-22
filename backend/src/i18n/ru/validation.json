@@ -1,6 +1,8 @@
 {
+  "IS_BOOLEAN": "{property} должен быть буливо значением [{value}]",
   "IS_NUMBER": "{property} должен быть числом [{value}]",
   "IS_STRING": "{property} должен быть строкой [{value}]",
+  "IS_UUID": "{property} должен быть uuid [{value}]",
   "IS_NEGATIVE": "{property} должен быть отрицательным [{value}]",
   "IS_NOT_EMPTY": "{property} не должен быть пустым [{value}]",
   "MIN_LENGTH": "{property} имеет меньшую длину",
