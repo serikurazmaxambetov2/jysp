@@ -10,5 +10,6 @@ class TextHandler(MessageHandler):
         if msg.text:
             logger.info("Обрабатываем текстовое сообщение")
             send_data["original_text"] = msg.text
+            send_data["markup_text"] = msg.text.html
             return send_data
         return await super().handle(msg, send_data)
