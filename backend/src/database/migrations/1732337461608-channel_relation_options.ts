@@ -5,6 +5,9 @@ export class ChannelRelationOptions1732337461608 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
+      `ALTER TABLE "channel_relation" ADD "use_formatting" boolean NOT NULL DEFAULT true`,
+    );
+    await queryRunner.query(
       `ALTER TABLE "channel_relation" ADD "use_ai" boolean NOT NULL DEFAULT false`,
     );
     await queryRunner.query(
@@ -16,6 +19,9 @@ export class ChannelRelationOptions1732337461608 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "channel_relation" DROP COLUMN "use_formatting"`,
+    );
     await queryRunner.query(
       `ALTER TABLE "channel_relation" DROP COLUMN "use_ai"`,
     );
