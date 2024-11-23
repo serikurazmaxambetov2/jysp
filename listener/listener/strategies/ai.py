@@ -4,7 +4,11 @@ from .base import BaseStrategy
 
 class AIStrategy(BaseStrategy):
     def execute(self, data, queue, relation):
-        if relation.get("use_ai"):
+        use_ai = relation.get("useAi", False)
+
+        if use_ai:
             queue = config.UNIFIER_QUEUE
+        else:
+            queue = config.PUBLISHER_QUEUE
 
         return data, queue
