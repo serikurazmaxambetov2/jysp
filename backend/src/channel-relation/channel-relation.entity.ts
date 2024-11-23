@@ -32,4 +32,10 @@ export class EChannelRelation {
   // Настройки
   @Column({ type: 'boolean', default: false, name: 'use_ai' })
   useAi: boolean;
+
+  @Column({ type: 'boolean', default: true, name: 'use_media' })
+  useMedia: boolean;
+
+  @Column({ type: 'boolean', default: true, name: 'use_media_group' })
+  useMediaGroup: boolean;
 }
