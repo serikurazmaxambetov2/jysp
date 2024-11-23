@@ -79,6 +79,7 @@ async def handle(_: Client, msg: types.Message):
 if __name__ == "__main__":
     # Настройка уровня логирования
     logging.basicConfig(level=logging.INFO)
+    logger.info(f"Слушаем сообщения в пользователе id={config.USER_ID}")
 
     # Запуск клиента
     app.run()
