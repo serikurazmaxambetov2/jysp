@@ -38,4 +38,7 @@ export class EChannelRelation {
 
   @Column({ type: 'boolean', default: true, name: 'use_media_group' })
   useMediaGroup: boolean;
+
+  @Column({ type: 'boolean', default: true, name: 'use_formatting' })
+  useFormatting: boolean;
 }

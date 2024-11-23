@@ -17,6 +17,11 @@ export class DChannelRelationOptionsUpdate {
   @IsOptional()
   useMediaGroup?: boolean;
 
+  @ApiProperty({ type: 'boolean' })
+  @IsBoolean({ message: 'validation.IS_BOOLEAN' })
+  @IsOptional()
+  useFormatting?: boolean;
+
   @ApiProperty({ type: 'string' })
   @IsString({ message: 'validation.IS_STRING' })
   @Length(2, 20, { message: 'validation.MAX_LENGTH' })
