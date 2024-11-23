@@ -25,6 +25,7 @@ class MediaGroupHandler(MessageHandler):
             else:
                 logger.info("Положили текст")
                 send_data["original_text"] = texts[0]
+                send_data["markup_text"] = texts[0].html
             return send_data
 
         return await super().handle(msg, send_data)
