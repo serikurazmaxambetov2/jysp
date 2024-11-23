@@ -41,4 +41,7 @@ export class EChannelRelation {
 
   @Column({ type: 'boolean', default: true, name: 'use_formatting' })
   useFormatting: boolean;
+
+  @Column({ type: 'text', array: true, default: '{}', name: 'stop_words' })
+  stopWords: string[];
 }

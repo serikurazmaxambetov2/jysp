@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class DChannelRelationOptionsUpdate {
   @ApiProperty({ type: 'boolean' })
@@ -21,6 +27,12 @@ export class DChannelRelationOptionsUpdate {
   @IsBoolean({ message: 'validation.IS_BOOLEAN' })
   @IsOptional()
   useFormatting?: boolean;
+
+  @ApiProperty({ type: 'array' })
+  @IsArray({ message: 'validation.IS_ARRAY' })
+  @IsString({ message: 'IS_STRING', each: true })
+  @IsOptional()
+  stopWords?: string[];
 
   @ApiProperty({ type: 'string' })
   @IsString({ message: 'validation.IS_STRING' })
