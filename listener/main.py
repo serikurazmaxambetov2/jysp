@@ -7,6 +7,7 @@ from listener import filters as custom_filters
 from listener import utils
 from listener.handlers import MediaGroupHandler, MediaHandler, TextHandler
 from listener.services import api_service, rmq_service
+from listener.strategies import compositor
 from listener.types import SendData
 
 # Инициализация клиента и логгера
@@ -53,15 +54,26 @@ async def handle(_: Client, msg: types.Message):
         # Добавление ID канала в данные для отправки
         send_data["to_channel_id"] = to_channel_id
 
-        logger.info(f"Отправляем сообщение в канал: {to_channel_id} в очередь: {queue}")
+        # Обрабатываем настройки и получаем обновленные данные
+        updated_data, updated_queue = compositor.execute(send_data, queue, relation)
 
-        # Отправка данных в очередь (RabbitMQ)
-        await rmq_service.send(utils.dict_to_bytes(send_data), queue)
+        if (
+            "original_text" in updated_data
+            or "media_type" in updated_data
+            or "media_group" in updated_data
+        ):
+            logger.info(
+                "Отправляем сообщение в канал"
+                f": {to_channel_id} в очередь: {updated_queue}"
+            )
 
-        logger.info(f"Сообщение отправлено в очередь")
+            # Отправка данных в очередь (RabbitMQ)
+            await rmq_service.send(utils.dict_to_bytes(updated_data), updated_queue)
 
-        # Удаляем из данных поле с ID канала, чтобы не отправить его повторно
-        del send_data["to_channel_id"]
+            logger.info(f"Сообщение отправлено в очередь")
+
+            # Удаляем из данных поле с ID канала, чтобы не отправить его повторно
+            del send_data["to_channel_id"]
 
 
 if __name__ == "__main__":
