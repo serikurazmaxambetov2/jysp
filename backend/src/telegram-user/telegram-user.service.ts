@@ -42,7 +42,10 @@ export class TelegramUserService {
       where: { id },
       relations: {
         channels: {
-          fromChannelRelations: true,
+          fromChannelRelations: {
+            fromChannel: true,
+            toChannel: true,
+          },
         },
       },
     });
@@ -50,6 +53,14 @@ export class TelegramUserService {
     this.logger.log(`Проверка что пользователь существует user:\n${user}`);
     if (!user) return false;
 
-    return user.channels;
+    const relations = [];
+
+    user.channels.forEach((channel) => {
+      channel.fromChannelRelations.forEach((fromChannelRelation) => {
+        relations.push(fromChannelRelation);
+      });
+    });
+
+    return relations;
   }
 }
