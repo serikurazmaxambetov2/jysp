@@ -1,0 +1,47 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-26 19:26+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: bot/dialogs/start.py:8
+msgid "dialogs.start.main"
+msgstr ""
+
+#: bot/keyboards/start.py:7
+msgid "keyboards.start.instructions"
+msgstr ""
+
+#: bot/keyboards/start.py:9
+msgid "keyboards.start.add_channel"
+msgstr ""
+
+#: bot/keyboards/start.py:10
+msgid "keyboards.start.my_channels"
+msgstr ""
+
+#: bot/keyboards/start.py:13
+msgid "keyboards.start.create_relation"
+msgstr ""
+
+#: bot/keyboards/start.py:14
+msgid "keyboards.start.my_relations"
+msgstr ""
+
+#: bot/keyboards/start.py:16
+msgid "keyboards.start.support"
+msgstr ""
+
