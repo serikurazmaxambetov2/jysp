@@ -18,6 +18,7 @@ class ApiService:
         session = self.get_session()
         async with session:
             async with session.request(method, endpoint, json=data) as response:
+                response.raise_for_status()
                 return await response.json()
 
     async def get_user(self, user_id: int) -> Any:
