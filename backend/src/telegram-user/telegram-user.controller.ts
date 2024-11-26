@@ -33,7 +33,10 @@ export class TelegramUserController {
 
   @Get(':id')
   async findById(@Param() params: DTelegramUserFindById) {
-    return await this.telegramUserService.findById(params.id);
+    const user = await this.telegramUserService.findById(params.id);
+    if (!user) throw new NotFoundException(this.i18n.t('validation.NOT_FOUND'));
+
+    return user;
   }
 
   @Get(':id/relations')
