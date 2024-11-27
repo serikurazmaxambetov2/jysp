@@ -5,7 +5,7 @@ from aiogram_dialog import setup_dialogs
 
 from bot.dialogs import dialog_registry
 from bot.handlers import main_router
-from bot.middlewares import i18n_middleware
+from bot.middlewares import DeleteMessageMiddleware, i18n_middleware
 from bot.misc import bot, dp
 
 
@@ -19,6 +19,7 @@ async def main():
 
     # I18n
     dp.message.middleware(i18n_middleware)
+    dp.message.outer_middleware(DeleteMessageMiddleware())
     dp.callback_query.middleware(i18n_middleware)
 
     # Запускаем polling
