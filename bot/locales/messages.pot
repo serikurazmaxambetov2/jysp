@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-27 19:14+0500\n"
+"POT-Creation-Date: 2024-11-27 19:45+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: bot/dialogs/channel.py:9
-msgid "dialogs.channel.list"
+#: bot/dialogs/channel.py:28
+msgid "dialogs.channel.has_channels"
+msgstr ""
+
+#: bot/dialogs/channel.py:29
+msgid "dialogs.channel.has_not_channels"
+msgstr ""
+
+#: bot/dialogs/channel.py:34
+msgid "globals.back"
 msgstr ""
 
 #: bot/dialogs/start.py:17
@@ -29,23 +37,19 @@ msgstr ""
 msgid "keyboards.start.instructions"
 msgstr ""
 
-#: bot/keyboards/start.py:12
-msgid "keyboards.start.add_channel"
-msgstr ""
-
-#: bot/keyboards/start.py:17
+#: bot/keyboards/start.py:11
 msgid "keyboards.start.my_channels"
 msgstr ""
 
-#: bot/keyboards/start.py:23
+#: bot/keyboards/start.py:16
 msgid "keyboards.start.create_relation"
 msgstr ""
 
-#: bot/keyboards/start.py:24
+#: bot/keyboards/start.py:17
 msgid "keyboards.start.my_relations"
 msgstr ""
 
-#: bot/keyboards/start.py:26
+#: bot/keyboards/start.py:19
 msgid "keyboards.start.support"
 msgstr ""
 
