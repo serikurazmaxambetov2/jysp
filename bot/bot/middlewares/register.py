@@ -4,10 +4,10 @@ from typing import Any, Awaitable, Callable, Dict
 import aiohttp
 from aiogram import BaseMiddleware
 from aiogram.types import Message
-from aiogram_dialog import DialogManager
 
 from ..services import api_service
 
+# Создаем логгер для этого модуля
 logger = logging.getLogger(__name__)
 
 
@@ -18,29 +18,28 @@ class RegisterMiddleware(BaseMiddleware):
         event: Message,
         data: Dict[str, Any],
     ):
-        logger.info("Получение пользователя")
-        # Получаем пользователя
+        # Логируем начало получения пользователя
+        logger.info("Начинаем обработку пользователя")
+
+        # Получаем информацию о пользователе из события
         telegram_user = event.from_user
         if telegram_user:
-            # Получаем пользователя с бд по его id
             user_id = telegram_user.id
             try:
+                # Пытаемся получить данные пользователя из базы данных
                 user = await api_service.get_user(user_id)
             except aiohttp.ClientResponseError as e:
-                logger.info(f"Ошибка: {e.status}")
-                logger.info("Создание пользователя")
-                # Иначе создаем
-                dto = dict(
-                    id=user_id,
-                    fullName=telegram_user.full_name,
-                    username=telegram_user.username,
-                )
-                user = await api_service.create_user(dto)
+                # Логируем ошибку при получении пользователя
+                logger.warning(f"Ошибка при получении пользователя, статус: {e.status}")
 
-            logger.info("Передаем пользователя")
-            logger.info(f"user={user}")
-            # Передаем пользователя
-            dialog_manager: DialogManager = data.get("dialog_manager")  # type: ignore
-            dialog_manager.middleware_data["user"] = user
+                # Если пользователь не найден, создаем нового
+                logger.info("Пользователь не найден, создаем нового")
+                dto = {
+                    "id": user_id,
+                    "fullName": telegram_user.full_name,
+                    "username": telegram_user.username,
+                }
+                await api_service.create_user(dto)
 
+        # Передаем управление обработчику
         return await handler(event, data)
