@@ -1,5 +1,3 @@
-from aiogram import Bot
-
 from .base import PublisherStrategy
 
 

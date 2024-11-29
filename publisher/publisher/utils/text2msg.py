@@ -1,6 +1,5 @@
 # autoflake: skip_file
-import datetime
-from typing import List, Union, overload
+from typing import List, Union
 
 import pyrogram
 
