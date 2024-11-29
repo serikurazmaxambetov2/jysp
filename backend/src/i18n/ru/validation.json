@@ -1,5 +1,5 @@
 {
-  "IS_ARRAY": "{property} должен быть массивом из строк [{value}]",
+  "IS_ARRAY": "{property} должен быть массивом [{value}]",
   "IS_BOOLEAN": "{property} должен быть буливо значением [{value}]",
   "IS_NUMBER": "{property} должен быть числом [{value}]",
   "IS_STRING": "{property} должен быть строкой [{value}]",
