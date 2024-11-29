@@ -47,6 +47,12 @@ export class ChannelRelationService {
   }
 
   private async checkCyclicExists(dto: DChannelRelationCreate) {
+    // Проверяет по цепочке, чтобы не было такого случая:
+    // A, B, C это каналы
+    // A посылает посты в B,
+    // B посылает посты в C
+    // C не может посылать посты в A
+    // т.к. тут будет бесконечная пересылка
     this.logger.log(`Проверка на циклическое существование с dto:\n${dto}`);
 
     const { fromChannel, toChannel } = dto;

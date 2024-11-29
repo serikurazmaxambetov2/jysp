@@ -25,7 +25,6 @@ export class ChannelController {
 
   @Post()
   async create(@Body() dto: DChannelCreate) {
-    // Проверка на существование
     const channelExists = await this.channelService.exists({
       where: { id: dto.id },
     });
@@ -37,7 +36,6 @@ export class ChannelController {
 
   @Get(':id')
   async findById(@Param() params: DChannelFindById) {
-    // Проверка на не существование
     const channel = await this.channelService.findById(params.id);
     if (!channel)
       throw new NotFoundException(this.i18n.t('validation.NOT_FOUND'));
